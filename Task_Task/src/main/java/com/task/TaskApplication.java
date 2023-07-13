@@ -14,7 +14,7 @@ public class TaskApplication {
 
 /*URL's of BackEnd Services
  * 
- *Insert Data= 		 	http://localhost:2000
+ *Insert using PostMan: http://localhost:2000
  *Retrieving Data:   	http://localhost:2000/getAll
  *Finding Average:   	http://localhost:2000/average
  *Finding Middle No: 	http://localhost:2000/middle
