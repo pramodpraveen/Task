@@ -8,7 +8,7 @@ public class Number {
 	
 	@Id
 	private Integer id;
-	private Integer number;
+	private Integer value;
 	
 	public Integer getId() {
 		return id;
@@ -16,16 +16,19 @@ public class Number {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getNumber() {
-		return number;
+	
+	public Integer getValue() {
+		return value;
 	}
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setValue(Integer value) {
+		this.value = value;
 	}
-	public Number(Integer id, Integer number) {
+	
+	
+	public Number(Integer id, Integer value) {
 		super();
 		this.id = id;
-		this.number = number;
+		this.value = value;
 	}
 	public Number() {
 		super();

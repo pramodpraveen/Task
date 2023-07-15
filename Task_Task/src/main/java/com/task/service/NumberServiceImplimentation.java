@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.task.Repository.NumberRepo;
@@ -26,7 +26,7 @@ public class NumberServiceImplimentation implements NumberServices{
 	@Override
 	public String saveDetails(Number num) {
 		Number result=repo.save(num);
-		return "Data Inserted Succesfully \n"+"ID: "+result.getId()+"\nNumber: "+result.getNumber();
+		return "Data Inserted Succesfully \n"+"ID: "+result.getId()+"\nNumber: "+result.getValue();
 	}
 	
 	
@@ -34,8 +34,7 @@ public class NumberServiceImplimentation implements NumberServices{
 	@Override
 	public List<Number> getAllData() {
 		
-		List<Number> result=repo.findAll();
-		return result;
+		return repo.findAll();
 	}
 
 	//Finding average of all numbers except 1st and last numbers.
@@ -47,9 +46,8 @@ public class NumberServiceImplimentation implements NumberServices{
             throw new InputMismatchException("List must contain at least three numbers.");
         }
         List<Number> trimmedNumbers = data.subList(1, data.size() - 1);
-        double sum = trimmedNumbers.stream().map(num1->num1.getNumber()).reduce((num1, num2)->num1+num2).get();
-        double average = sum / trimmedNumbers.size();
-		return average;
+        double sum = trimmedNumbers.stream().map(Number::getValue).reduce((num1, num2)->num1+num2).get();  
+		return sum / trimmedNumbers.size();
 	}
 
 	//Finding middle number from table.
@@ -60,7 +58,7 @@ public class NumberServiceImplimentation implements NumberServices{
         if (data.isEmpty()) {
             throw new InputMismatchException("List must not be empty.");
         }
-        List<Integer> res1=data.stream().map(num1->num1.getNumber()).collect(Collectors.toList());
+        List<Integer> res1=data.stream().map(Number::getValue).toList();
         int middleIndex = res1.size() / 2;
 		return res1.get(middleIndex);
 	}
@@ -69,7 +67,7 @@ public class NumberServiceImplimentation implements NumberServices{
 	@Override
 	public String countDuplicates() {
 		List<Number> data=repo.findAll();
-        Set<Integer> uniqueNumbers = data.stream().map(num1->num1.getNumber()).collect(Collectors.toSet());
+        Set<Integer> uniqueNumbers = data.stream().map(Number::getValue).collect(Collectors.toSet());
         int duplicates = data.size() - uniqueNumbers.size();
 		return "Total no of duplicates from the table is = "+duplicates;
 	}
@@ -86,21 +84,21 @@ public class NumberServiceImplimentation implements NumberServices{
 
         // Calculate even average
         Double evenAverage = data.stream()
-                .filter(num -> num.getNumber() % 2 == 0).map(num1->num1.getNumber())// Filter even numbers
+                .filter(num -> num.getValue() % 2 == 0).map(Number::getValue)// Filter even numbers
                 .collect(Collectors.averagingInt(Integer::intValue)); // Calculate average
 
         averages.put("evenAverage", evenAverage);
 
         // Calculate odd average
         Double oddAverage = data.stream()
-                .filter(num -> num.getNumber() % 2 != 0).map(num1->num1.getNumber())// Filter odd numbers
+                .filter(num -> num.getValue() % 2 != 0).map(Number::getValue)// Filter odd numbers
                 .collect(Collectors.averagingInt(Integer::intValue)); // Calculate average
         
         averages.put("oddAverage", oddAverage);
 
         // Count even and odd numbers
         long evenCount = data.stream()
-                .filter(num -> num.getNumber() % 2 == 0) // Filter even numbers
+                .filter(num -> num.getValue() % 2 == 0) // Filter even numbers
                 .count();
 
         long oddCount = data.size() - evenCount;

@@ -30,14 +30,21 @@ public class NumberController {
 	
 	@RequestMapping("/save")
 	public String saveRecord(@RequestParam int id,
-									@RequestParam int number,Number num,ModelMap m) {
+									@RequestParam int value,Number num,ModelMap m) {
 		
 		m.put("id", id);
-		m.put("number", number);
+		m.put("number", value);
 		services.saveDetails(num);
 		return "result";	
 		
 	}
+	/*
+	@PostMapping("/save")
+	public String saveRecord(@RequestBody Number num) {
+		
+			
+		
+	}*/
 	
 	@GetMapping("/getAll")
 	public ResponseEntity<List<Number>> getAll() {
