@@ -18,6 +18,7 @@ import com.task.model.Number;
 import com.task.service.NumberServices;
 
 @Controller
+//@RestController
 public class NumberController {
 	
 	@Autowired
@@ -38,12 +39,12 @@ public class NumberController {
 		return "result";	
 		
 	}
+	
 	/*
 	@PostMapping("/save")
 	public String saveRecord(@RequestBody Number num) {
-		
 			
-		
+		return services.saveDetails(num);
 	}*/
 	
 	@GetMapping("/getAll")
